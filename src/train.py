@@ -40,9 +40,9 @@ parser.add_argument("--t", type=float, default=0.0001)
 
 parser.add_argument("--obj", type=str, default='audi_et_te.obj')
 parser.add_argument("--faces", type=str, default='./all_faces.txt')
-parser.add_argument("--datapath", type=str, default='/home/jovyan/16061056/physical_attack/data/')
-parser.add_argument("--content", type=str, default='textures/smile.npy')
-parser.add_argument("--canny", type=str, default='textures/smile_canny.npy')
+parser.add_argument("--datapath", type=str)
+parser.add_argument("--content", type=str)
+parser.add_argument("--canny", type=str)
 
 args = parser.parse_args()
 

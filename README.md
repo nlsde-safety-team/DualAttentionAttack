@@ -6,7 +6,8 @@ This paper proposed a dual attention supression attack approach, which exploits 
  
 #### Framework
 
-![alt framework](https://github.com/nlsde-safety-team/DualAttentionAttack/blob/main/src/framework.png)
+
+<img src="https://github.com/nlsde-safety-team/DualAttentionAttack/blob/main/src/framework.png" width="80%">
 
 ## Running
 

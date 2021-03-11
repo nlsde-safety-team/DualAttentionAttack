@@ -1,7 +1,9 @@
 # DualAttentionAttack
 
-[paper](https://arxiv.org/abs/2103.01050)
+This [paper](https://arxiv.org/abs/2103.01050) is accepted by CVPR'2021(Oral).
 
+This paper proposed a dual attention supression attack approach, which exploits both the modle attention and human attention. Specifically, we distract the model attention to obtain a better attack ability, and moreover, we evade the human attention to help improving the naturalness.
+ 
 ## Running
 
 ### before running

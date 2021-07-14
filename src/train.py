@@ -153,7 +153,7 @@ with open(args.faces, 'r') as f:
     # print(face_ids)
     for face_id in face_ids:
         if face_id != '\n':
-            texture_mask[int(face_id) - 1, :, :, :, :] = 1;
+            texture_mask[int(face_id) - 1, :, :, :, :] = 1
 texture_mask = torch.from_numpy(texture_mask).cuda(device=0).unsqueeze(0)
 
 

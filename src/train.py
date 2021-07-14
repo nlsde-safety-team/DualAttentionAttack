@@ -186,7 +186,7 @@ def run_cam(data_dir, epoch, train=True, batch_size=BATCH_SIZE):
     print(len(dataset))
     for _ in range(epoch):
         print('Epoch: ', _, '/', epoch)
-        count = 0;
+        count = 0
         tqdm_loader = tqdm.tqdm(loader)
         for i, (index, total_img, texture_img, masks) in enumerate(tqdm_loader):
             index = int(index[0])

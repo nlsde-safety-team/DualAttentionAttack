@@ -25,6 +25,13 @@ class MyDataset(Dataset):
                 data = np.load(os.path.join(self.data_dir, file))
                 veh_trans = data['veh_trans']
                 cam_trans = data['cam_trans']
+
+                cam_trans[0][0] = cam_trans[0][0] + veh_trans[0][0]
+                cam_trans[0][1] = cam_trans[0][1] + veh_trans[0][1]
+                cam_trans[0][2] = cam_trans[0][2] + veh_trans[0][2]
+
+                veh_trans[0][2] = veh_trans[0][2] + 0.2
+
                 dis = (cam_trans - veh_trans)[0, :]
                 dis = np.sum(dis ** 2)
                 # print(dis)
@@ -53,7 +60,12 @@ class MyDataset(Dataset):
         img = data['img']
         veh_trans = data['veh_trans']
         cam_trans = data['cam_trans']
-        
+        cam_trans[0][0] = cam_trans[0][0] + veh_trans[0][0]
+        cam_trans[0][1] = cam_trans[0][1] + veh_trans[0][1]
+        cam_trans[0][2] = cam_trans[0][2] + veh_trans[0][2]
+
+        veh_trans[0][2] = veh_trans[0][2] + 0.2
+
         eye, camera_direction, camera_up = nmr.get_params(cam_trans, veh_trans)
         
         self.mask_renderer.renderer.renderer.eye = eye
@@ -72,19 +84,22 @@ class MyDataset(Dataset):
         # print(img.size())
         # print(imgs_pred.size())
         imgs_pred = imgs_pred / torch.max(imgs_pred)
-        total_img = img + 255 * imgs_pred
         
         
-        if self.ret_mask:
-            mask_file = os.path.join(self.mask_dir, self.files[index][:-4] + '.png')
-            mask = cv2.imread(mask_file)
-            mask = cv2.resize(mask, (self.img_size, self.img_size))
-            mask = np.logical_or(mask[:, :, 0], mask[:, :, 1], mask[:, :, 2])
-            mask = torch.from_numpy(mask.astype('float32')).cuda()
-            # print(mask.size())
-            # print(torch.max(mask))
-            return index, total_img.squeeze(0) , imgs_pred.squeeze(0), mask
-        return index, total_img.squeeze(0) , imgs_pred.squeeze(0)
+        
+        # if self.ret_mask:
+        mask_file = os.path.join(self.mask_dir, self.files[index][:-4] + '.png')
+        mask = cv2.imread(mask_file)
+        mask = cv2.resize(mask, (self.img_size, self.img_size))
+        mask = np.logical_or(mask[:, :, 0], mask[:, :, 1], mask[:, :, 2])
+        mask = torch.from_numpy(mask.astype('float32')).cuda()
+        # print(mask.size())
+        # print(torch.max(mask))
+
+        total_img = img * (1-mask) + 255 * imgs_pred * mask
+
+        return index, total_img.squeeze(0) , imgs_pred.squeeze(0), mask
+        # return index, total_img.squeeze(0) , imgs_pred.squeeze(0)
     
     def __len__(self):
         return len(self.files)
@@ -102,3 +117,4 @@ if __name__ == '__main__':
     
     for img, car_box in loader:
         print(img.size(), car_box.size())
+ß
